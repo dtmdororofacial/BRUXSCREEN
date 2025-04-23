@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BruxScreen - Triagem para Bruxismo</title>
+    <style>
+        :root {
+            --primary: #0070f3;
+            --primary-hover: #0060df;
+            --background: #ffffff;
+            --foreground: #333333;
+            --muted: #f5f5f5;
+            --muted-foreground: #737373;
+            --border: #e5e5e5;
+            --radius: 0.5rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .card {
+            background-color: var(--background);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            height: 2.5rem;
+            padding: 0 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .button-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .button-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .button-outline {
+            background-color: transparent;
+            color: var(--foreground);
+            border: 1px solid var(--border);
+        }
+
+        .button-outline:hover {
+            background-color: var(--muted);
+        }
+
+        .progress-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .progress-bar {
+            height: 0.5rem;
+            background-color: var(--muted);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-value {
+            height: 100%;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .question {
+            margin-bottom: 1.5rem;
+        }
+
+        .question-text {
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .radio-group {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .radio-item input[type="radio"] {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 9999px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+
+        .badge-default {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .badge-outline {
+            background-color: transparent;
+            border: 1px solid var(--border);
+            color: var(--foreground);
+        }
+
+        .separator {
+            height: 1px;
+            background-color: var(--border);
+            margin: 1.5rem 0;
+        }
+
+        .bg-muted {
+            background-color: var(--muted);
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-top: 1rem;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .space-y-4 > * + * {
+            margin-top: 1rem;
+        }
+
+        .list-disc {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .alert {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border-radius: 0.25rem;
+        }
+
+        .developer-info {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f0f7ff;
+            border-radius: var(--radius);
+            border-left: 4px solid #0070f3;
+        }
+
+        .developer-info h4 {
+            color: #0070f3;
+            margin-bottom: 0.5rem;
+        }
+
+        .print-button {
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--muted);
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--muted);
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+            
+            body {
+                background-color: white;
+            }
+            
+            .container {
+                padding: 0;
+            }
+            
+            .card {
+                box-shadow: none;
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Página Inicial -->
+        <div id="home-page">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="card-title">BruxScreen - Triagem para Bruxismo</h1>
+                    <p class="card-description">Ferramenta para avaliação de bruxismo por profissionais dentistas</p>
+                </div>
+                <div class="card-content space-y-4">
+                    <div class="alert">
+                        <p><strong>ATENÇÃO:</strong> Essa é uma tradução NÃO OFICIAL E NÃO VALIDADA realizada pela Profa. Dra. Juliana Stuginski Barbosa. Referência: Lobbezoo F, Ahlberg J, Verhoeff MC, Aarab G, Bracci A, Koutris M, Nykänen L, Thymi M, Wetselaar P, Manfredini D. The bruxism screener (BruxScreen): Development, pilot testing and face validity. J Oral Rehabil. 2023 Feb 26. doi: 10.1111/joor.13442. Epub ahead of print. PMID: 36843424.</p>
+                    </div>
+                    
+                    <p>
+                        Este aplicativo utiliza o questionário BruxScreen para avaliação de bruxismo em pacientes.
+                    </p>
+                    <p>
+                        O questionário é dividido em duas partes principais:
+                    </p>
+                    <ul class="list-disc">
+                        <li><strong>BruxScreen-Q:</strong> Parte 1 - Autorrelato de bruxismo (preenchido pelo paciente)</li>
+                        <li><strong>BruxScreen-C:</strong> Parte 2 - Formulário para exame físico (preenchido pelo dentista)</li>
+                    </ul>
+                    <p>
+                        Com base nas respostas, o aplicativo irá determinar:
+                    </p>
+                    <ul class="list-disc">
+                        <li>Classificação do bruxismo (possível ou provável)</li>
+                        <li>Tipo de bruxismo (do sono, em vigília ou ambos)</li>
+                        <li>Severidade e frequência</li>
+                    </ul>
+                    
+                    <div class="developer-info">
+                        <h4>Desenvolvido por:</h4>
+                        <p><strong>Profa. Dra. Juliana Stuginski Barbosa</strong></p>
+                        <p>Atendimentos em Ribeirão Preto e também online</p>
+                        <p>Contato: (16) 97404-3488</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div></div>
+                    <button class="button button-primary" onclick="startQuestionnaire()">Iniciar Questionário</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Questionário -->
+        <div id="questionnaire-page" class="hidden">
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span id="progress-text">Progresso: 1 de 9</span>
+                    <span id="progress-percentage">11%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-value" id="progress-bar" style="width: 11%;"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title" id="section-title">Introdução</h2>
+                    <p class="card-description" id="section-description">Informações sobre o questionário BruxScreen</p>
+                </div>
+                <div class="card-content">
+                    <!-- Seção de Introdução -->
+                    <div id="section-intro" class="section">
+                        <div class="space-y-4">
+                            <div class="alert">
+                                <p><strong>ATENÇÃO:</strong> Essa é uma tradução NÃO OFICIAL E NÃO VALIDADA realizada pela Profa. Dra. Juliana Stuginski Barbosa. Referência: Lobbezoo F, Ahlberg J, Verhoeff MC, Aarab G, Bracci A, Koutris M, Nykänen L, Thymi M, Wetselaar P, Manfredini D. The bruxism screener (BruxScreen): Development, pilot testing and face validity. J Oral Rehabil. 2023 Feb 26. doi: 10.1111/joor.13442. Epub ahead of print. PMID: 36843424.</p>
+                            </div>
+                            
+                            <p>
+                                Este questionário avalia a possível presença de bruxismo e seus sintomas relacionados. O bruxismo é uma atividade dos músculos da mastigação que se expressa de duas maneiras diferentes: como leve ou forte apertamento dos dentes, contração muscular, ou como ranger dos dentes.
+                            </p>
+                            <p>
+                                O apertamento é uma atividade imóvel, enquanto durante o ranger a mandíbula se move ao longo da maxila. Ranger geralmente é acompanhada por sons de rangidos. Ambas as atividades podem ocorrer durante o sono e durante a vigília.
+                            </p>
+                            <p>
+                                O questionário está dividido em duas partes:
+                            </p>
+                            <ul class="list-disc">
+                                <li><strong>BruxScreen-Q:</strong> Parte 1 - Autorrelato de bruxismo (preenchido pelo paciente)</li>
+                                <li><strong>BruxScreen-C:</strong> Parte 2 - Formulário para exame físico (preenchido pelo dentista)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Seção 1 - Bruxismo do Sono -->
+                    <div id="section-1" class="section hidden">
+                        <h3 class="mb-4">BruxScreen-Q: Parte 1 - Autorrelato de bruxismo</h3>
+                        
+                        <div class="question">
+                            <p class="question-text">1. Com que frequência o paciente aperta os dentes durante o sono?</p>
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="q1" value="0"> Nunca
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q1" value="1"> Às vezes
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q1" value="2"> Regularmente
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q1" value="3"> Frequentemente
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q1" value="4"> Sempre
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q1" value="0"> Não Sei
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="question">
+                            <p class="question-text">2. Com que frequência o paciente range os dentes durante o sono?</p>
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="q2" value="0"> Nunca
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q2" value="1"> Às vezes
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q2" value="2"> Regularmente
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q2" value="3"> Frequentemente
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q2" value="4"> Sempre
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q2" value="0"> Não Sei
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção 2 - Bruxismo em Vigília -->
+                    <div id="section-2" class="section hidden">
+                        <h3 class="mb-4">BruxScreen-Q: Parte 1 - Autorrelato de bruxismo (continuação)</h3>
+                        
+                        <div class="question">
+                            <p class="question-text">3. Com que frequência o paciente aperta os dentes enquanto está acordado?</p>
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="q3" value="0"> Nunca
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q3" value="1"> Às vezes
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q3" value="2"> Regularmente
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q3" value="3"> Frequentemente
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q3" value="4"> Sempre
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q3" value="0"> Não Sei
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="question">
+                            <p class="question-text">4. Com que frequência o paciente range os dentes enquanto está acordado?</p>
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="q4" value="0"> Nunca
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q4" value="1"> Às vezes
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q4" value="2"> Regularmente
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q4" value="3"> Frequentemente
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q4" value="4"> Sempre
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q4" value="0"> Não Sei
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção 3 - Bruxismo em Vigília (continuação) -->
+                    <div id="section-3" class="section hidden">
+                        <h3 class="mb-4">BruxScreen-Q: Parte 1 - Autorrelato de bruxismo (continuação)</h3>
+                        
+                        <div class="question">
+                            <p class="question-text">5. Com que frequência o paciente aperta, toca ou mantém os dentes juntos enquanto está acordado, exceto enquanto come (isto é, contato entre os dentes superiores e inferiores)?</p>
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="q5" value="0"> Nunca
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q5" value="1"> Às vezes
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q5" value="2"> Regularmente
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q5" value="3"> Frequentemente
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q5" value="4"> Sempre
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q5" value="0"> Não Sei
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="question">
+                            <p class="question-text">6. Com que frequência o paciente segura, contrai ou tensiona os músculos com firmeza enquanto está acordado, sem cerrar ou aproximar os dentes?</p>
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input type="radio" name="q6" value="0"> Nunca
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q6" value="1"> Às vezes
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q6" value="2"> Regularmente
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q6" value="3"> Frequentemente
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q6" value="4"> Sempre
+                                </label>
+                                <label class="radio-item">
+                                    <input type="radio" name="q6" value="0"> Não Sei
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção 4 - Sintomas ao Acordar -->
+                    <div id="section-4" class="section hidden">
+                        <h3 class="mb-4">BruxScreen-Q: Sintomas na face</h3>
+                        
+                        <div class="question">
+                            <p class="question-text">8. Com que frequência o paciente sente dor/desconforto/sensibilidade/cansaço/tensão/rigidez na têmpora, face, mandíbula ou articulação da mandíbula AO ACORDAR?</p>
+                            
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Sintoma</th>
+                                            <th>Nunca</th>
+                                            <th>Às vezes</th>
+                                            <th>Regularmente</th>
+                                            <th>Frequentemente</th>
+                                            <th>Sempre</th>
+                                            <th>Não sei</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Dor</td>
+                                            <td><input type="radio" name="q8_dor" value="0"></td>
+                                            <td><input type="radio" name="q8_dor" value="1"></td>
+                                            <td><input type="radio" name="q8_dor" value="2"></td>
+                                            <td><input type="radio" name="q8_dor" value="3"></td>
+                                            <td><input type="radio" name="q8_dor" value="4"></td>
+                                            <td><input type="radio" name="q8_dor" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sensação desagradável</td>
+                                            <td><input type="radio" name="q8_desconforto" value="0"></td>
+                                            <td><input type="radio" name="q8_desconforto" value="1"></td>
+                                            <td><input type="radio" name="q8_desconforto" value="2"></td>
+                                            <td><input type="radio" name="q8_desconforto" value="3"></td>
+                                            <td><input type="radio" name="q8_desconforto" value="4"></td>
+                                            <td><input type="radio" name="q8_desconforto" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sensibilidade</td>
+                                            <td><input type="radio" name="q8_sensibilidade" value="0"></td>
+                                            <td><input type="radio" name="q8_sensibilidade" value="1"></td>
+                                            <td><input type="radio" name="q8_sensibilidade" value="2"></td>
+                                            <td><input type="radio" name="q8_sensibilidade" value="3"></td>
+                                            <td><input type="radio" name="q8_sensibilidade" value="4"></td>
+                                            <td><input type="radio" name="q8_sensibilidade" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cansaço</td>
+                                            <td><input type="radio" name="q8_cansaco" value="0"></td>
+                                            <td><input type="radio" name="q8_cansaco" value="1"></td>
+                                            <td><input type="radio" name="q8_cansaco" value="2"></td>
+                                            <td><input type="radio" name="q8_cansaco" value="3"></td>
+                                            <td><input type="radio" name="q8_cansaco" value="4"></td>
+                                            <td><input type="radio" name="q8_cansaco" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tensão</td>
+                                            <td><input type="radio" name="q8_tensao" value="0"></td>
+                                            <td><input type="radio" name="q8_tensao" value="1"></td>
+                                            <td><input type="radio" name="q8_tensao" value="2"></td>
+                                            <td><input type="radio" name="q8_tensao" value="3"></td>
+                                            <td><input type="radio" name="q8_tensao" value="4"></td>
+                                            <td><input type="radio" name="q8_tensao" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Rigidez</td>
+                                            <td><input type="radio" name="q8_rigidez" value="0"></td>
+                                            <td><input type="radio" name="q8_rigidez" value="1"></td>
+                                            <td><input type="radio" name="q8_rigidez" value="2"></td>
+                                            <td><input type="radio" name="q8_rigidez" value="3"></td>
+                                            <td><input type="radio" name="q8_rigidez" value="4"></td>
+                                            <td><input type="radio" name="q8_rigidez" value="0"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção 5 - Sintomas Durante o Dia -->
+                    <div id="section-5" class="section hidden">
+                        <h3 class="mb-4">BruxScreen-Q: Sintomas na face (continuação)</h3>
+                        
+                        <div class="question">
+                            <p class="question-text">9. Com que frequência o paciente sente dor/desconforto/sensibilidade/cansaço/tensão/rigidez na têmpora, face, mandíbula ou articulação da mandíbula EM QUALQUER OUTRO HORÁRIO DO DIA?</p>
+                            
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Sintoma</th>
+                                            <th>Nunca</th>
+                                            <th>Às vezes</th>
+                                            <th>Regularmente</th>
+                                            <th>Frequentemente</th>
+                                            <th>Sempre</th>
+                                            <th>Não sei</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Dor</td>
+                                            <td><input type="radio" name="q9_dor" value="0"></td>
+                                            <td><input type="radio" name="q9_dor" value="1"></td>
+                                            <td><input type="radio" name="q9_dor" value="2"></td>
+                                            <td><input type="radio" name="q9_dor" value="3"></td>
+                                            <td><input type="radio" name="q9_dor" value="4"></td>
+                                            <td><input type="radio" name="q9_dor" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Desconforto</td>
+                                            <td><input type="radio" name="q9_desconforto" value="0"></td>
+                                            <td><input type="radio" name="q9_desconforto" value="1"></td>
+                                            <td><input type="radio" name="q9_desconforto" value="2"></td>
+                                            <td><input type="radio" name="q9_desconforto" value="3"></td>
+                                            <td><input type="radio" name="q9_desconforto" value="4"></td>
+                                            <td><input type="radio" name="q9_desconforto" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sensibilidade</td>
+                                            <td><input type="radio" name="q9_sensibilidade" value="0"></td>
+                                            <td><input type="radio" name="q9_sensibilidade" value="1"></td>
+                                            <td><input type="radio" name="q9_sensibilidade" value="2"></td>
+                                            <td><input type="radio" name="q9_sensibilidade" value="3"></td>
+                                            <td><input type="radio" name="q9_sensibilidade" value="4"></td>
+                                            <td><input type="radio" name="q9_sensibilidade" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cansaço</td>
+                                            <td><input type="radio" name="q9_cansaco" value="0"></td>
+                                            <td><input type="radio" name="q9_cansaco" value="1"></td>
+                                            <td><input type="radio" name="q9_cansaco" value="2"></td>
+                                            <td><input type="radio" name="q9_cansaco" value="3"></td>
+                                            <td><input type="radio" name="q9_cansaco" value="4"></td>
+                                            <td><input type="radio" name="q9_cansaco" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tensão</td>
+                                            <td><input type="radio" name="q9_tensao" value="0"></td>
+                                            <td><input type="radio" name="q9_tensao" value="1"></td>
+                                            <td><input type="radio" name="q9_tensao" value="2"></td>
+                                            <td><input type="radio" name="q9_tensao" value="3"></td>
+                                            <td><input type="radio" name="q9_tensao" value="4"></td>
+                                            <td><input type="radio" name="q9_tensao" value="0"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Rigidez</td>
+                                            <td><input type="radio" name="q9_rigidez" value="0"></td>
+                                            <td><input type="radio" name="q9_rigidez" value="1"></td>
+                                            <td><input type="radio" name="q9_rigidez" value="2"></td>
+                                            <td><input type="radio" name="q9_rigidez" value="3"></td>
+                                            <td><input type="radio" name="q9_rigidez" value="4"></td>
+                                            <td><input type="radio" name="q9_rigidez" value="0"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção 6 - Exame Físico Extraoral -->
+                    <div id="section-6" class="section hidden">
+                        <h3 class="mb-4">BruxScreen-C: Parte 2 - Formulário para exame físico</h3>
+                        
+                        <p class="mb-4">Esta ferramenta de avaliação clínica visa identificar sinais que possam estar associados ao bruxismo.</p>
+                        
+                        <div class="question">
+                            <p class="question-text">1. Inspeção extraoral</p>
+                            <p class="text-sm mb-2">Em caso de dúvida, selecione 'Ausente'.</p>
+                            
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Sinal</th>
+                                            <th>Ausente</th>
+                                            <th>Presente</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Hipertrofia do músculo masseter (observada enquanto os músculos estão relaxados)</td>
+                                            <td><input type="radio" name="c1_masseter_relaxado" value="0"></td>
+                                            <td><input type="radio" name="c1_masseter_relaxado" value="1"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hipertrofia do músculo masseter (observada enquanto os músculos estão contraídos)</td>
+                                            <td><input type="radio" name="c1_masseter_contraido" value="0"></td>
+                                            <td><input type="radio" name="c1_masseter_contraido" value="1"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção 7 - Exame Físico Intraoral -->
+                    <div id="section-7" class="section hidden">
+                        <h3 class="mb-4">BruxScreen-C: Parte 2 - Formulário para exame físico (continuação)</h3>
+                        
+                        <div class="question">
+                            <p class="question-text">2. Inspeção intra-oral de estruturas não dentárias</p>
+                            <p class="text-sm mb-2">Em caso de dúvida, selecione 'Ausente'.</p>
+                            
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Sinal</th>
+                                            <th>Ausente</th>
+                                            <th>Presente</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Lábio (endentação)</td>
+                                            <td><input type="radio" name="c2_labio" value="0"></td>
+                                            <td><input type="radio" name="c2_labio" value="1"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bochecha (Linha alba marcada)</td>
+                                            <td><input type="radio" name="c2_bochecha" value="0"></td>
+                                            <td><input type="radio" name="c2_bochecha" value="1"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Língua (endentação)</td>
+                                            <td><input type="radio" name="c2_lingua_endentacao" value="0"></td>
+                                            <td><input type="radio" name="c2_lingua_endentacao" value="1"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Língua (lesões traumáticas)</td>
+                                            <td><input type="radio" name="c2_lingua_lesoes" value="0"></td>
+                                            <td><input type="radio" name="c2_lingua_lesoes" value="1"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Osso alveolar (exostoses, torus)</td>
+                                            <td><input type="radio" name="c2_osso" value="0"></td>
+                                            <td><input type="radio" name="c2_osso" value="1"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção 8 - Exame Físico Dentário -->
+                    <div id="section-8" class="section hidden">
+                        <h3 class="mb-4">BruxScreen-C: Parte 2 - Formulário para exame físico (continuação)</h3>
+                        
+                        <div class="question">
+                            <p class="question-text">3. Inspeção de tecidos dentários</p>
+                            <p class="text-sm mb-2">Em caso de dúvida entre duas pontuações, selecione a mais baixa.</p>
+                            
+                            <p class="mb-2"><strong>Legenda:</strong></p>
+                            <p class="text-sm mb-2">Desgaste oclusal/incisal por sextante:</p>
+                            <ul class="list-disc mb-4">
+                                <li>(0) sem desgaste visível</li>
+                                <li>(1) desgaste visível dentro do esmalte</li>
+                                <li>(2) desgaste visível com exposição de dentina e perda da altura da coroa clínica de ≤1/3</li>
+                                <li>(3) perda da altura da coroa >1/3 mas <2/3</li>
+                                <li>(4) perda de altura da copa ≥2/3</li>
+                            </ul>
+                            
+                            <p class="text-sm mb-2">Desgaste palatino no sextante nº. 2:</p>
+                            <ul class="list-disc mb-4">
+                                <li>(0) nenhum desgaste visível</li>
+                                <li>(1) desgaste confinado ao esmalte</li>
+                                <li>(2) desgaste na dentina</li>
+                            </ul>
+                            
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Sextante</th>
+                                            <th>0</th>
+                                            <th>1</th>
+                                            <th>2</th>
+                                            <th>3</th>
+                                            <th>4</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Sextante 1 - Oclusal</td>
+                                            <td><input type="radio" name="c3_sextante1" value="0"></td>
+                                            <td><input type="radio" name="c3_sextante1" value="1"></td>
+                                            <td><input type="radio" name="c3_sextante1" value="2"></td>
+                                            <td><input type="radio" name="c3_sextante1" value="3"></td>
+                                            <td><input type="radio" name="c3_sextante1" value="4"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sextante 2 - Incisal</td>
+                                            <td><input type="radio" name="c3_sextante2_incisal" value="0"></td>
+                                            <td><input type="radio" name="c3_sextante2_incisal" value="1"></td>
+                                            <td><input type="radio" name="c3_sextante2_incisal" value="2"></td>
+                                            <td><input type="radio" name="c3_sextante2_incisal" value="3"></td>
+                                            <td><input type="radio" name="c3_sextante2_incisal" value="4"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sextante 2 - Palatal</td>
+                                            <td><input type="radio" name="c3_sextante2_palatal" value="0"></td>
+                                            <td><input type="radio" name="c3_sextante2_palatal" value="1"></td>
+                                            <td><input type="radio" name="c3_sextante2_palatal" value="2"></td>
+                                            <td><input type="radio" name="c3_sextante2_palatal" value="0" disabled></td>
+                                            <td><input type="radio" name="c3_sextante2_palatal" value="0" disabled></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sextante 3 - Oclusal</td>
+                                            <td><input type="radio" name="c3_sextante3" value="0"></td>
+                                            <td><input type="radio" name="c3_sextante3" value="1"></td>
+                                            <td><input type="radio" name="c3_sextante3" value="2"></td>
+                                            <td><input type="radio" name="c3_sextante3" value="3"></td>
+                                            <td><input type="radio" name="c3_sextante3" value="4"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sextante 4 - Oclusal</td>
+                                            <td><input type="radio" name="c3_sextante4" value="0"></td>
+                                            <td><input type="radio" name="c3_sextante4" value="1"></td>
+                                            <td><input type="radio" name="c3_sextante4" value="2"></td>
+                                            <td><input type="radio" name="c3_sextante4" value="3"></td>
+                                            <td><input type="radio" name="c3_sextante4" value="4"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sextante 5 - Incisal</td>
+                                            <td><input type="radio" name="c3_sextante5" value="0"></td>
+                                            <td><input type="radio" name="c3_sextante5" value="1"></td>
+                                            <td><input type="radio" name="c3_sextante5" value="2"></td>
+                                            <td><input type="radio" name="c3_sextante5" value="3"></td>
+                                            <td><input type="radio" name="c3_sextante5" value="4"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sextante 6 - Oclusal</td>
+                                            <td><input type="radio" name="c3_sextante6" value="0"></td>
+                                            <td><input type="radio" name="c3_sextante6" value="1"></td>
+                                            <td><input type="radio" name="c3_sextante6" value="2"></td>
+                                            <td><input type="radio" name="c3_sextante6" value="3"></td>
+                                            <td><input type="radio" name="c3_sextante6" value="4"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="question mt-4">
+                                <p class="question-text">O desgaste dentário observado é:</p>
+                                <div class="radio-group">
+                                    <label class="radio-item">
+                                        <input type="radio" name="c3_tipo_desgaste" value="mecanico"> Principalmente mecânico
+                                    </label>
+                                    <label class="radio-item">
+                                        <input type="radio" name="c3_tipo_desgaste" value="quimico"> Principalmente químico
+                                    </label>
+                                    <label class="radio-item">
+                                        <input type="radio" name="c3_tipo_desgaste" value="ambos"> Tanto mecânico como químico
+                                    </label>
+                                    <label class="radio-item">
+                                        <input type="radio" name="c3_tipo_desgaste" value="nenhum"> Não se aplica
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="button button-outline" id="prev-button" onclick="previousSection()">Anterior</button>
+                    <button class="button button-primary" id="next-button" onclick="nextSection()">Próximo</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultado -->
+        <div id="result-page" class="hidden">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Resultado da Triagem para Bruxismo</h2>
+                    <p class="card-description">Baseado no questionário BruxScreen</p>
+                </div>
+                <div class="card-content space-y-4">
+                    <div class="alert">
+                        <p><strong>ATENÇÃO:</strong> Essa é uma tradução NÃO OFICIAL E NÃO VALIDADA realizada pela Profa. Dra. Juliana Stuginski Barbosa. Referência: Lobbezoo F, Ahlberg J, Verhoeff MC, Aarab G, Bracci A, Koutris M, Nykänen L, Thymi M, Wetselaar P, Manfredini D. The bruxism screener (BruxScreen): Development, pilot testing and face validity. J Oral Rehabil. 2023 Feb 26. doi: 10.1111/joor.13442. Epub ahead of print. PMID: 36843424.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="mb-2"><strong>Bruxismo do Sono</strong></h3>
+                        <div class="grid-2">
+                            <div>
+                                <p class="text-sm">Classificação:</p>
+                                <span class="badge" id="sleep-classification"></span>
+                            </div>
+                            <div>
+                                <p class="text-sm">Frequência:</p>
+                                <span class="badge" id="sleep-frequency"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="separator"></div>
+
+                    <div>
+                        <h3 class="mb-2"><strong>Bruxismo em Vigília</strong></h3>
+                        <div class="grid-2">
+                            <div>
+                                <p class="text-sm">Classificação:</p>
+                                <span class="badge" id="awake-classification"></span>
+                            </div>
+                            <div>
+                                <p class="text-sm">Frequência:</p>
+                                <span class="badge" id="awake-frequency"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="separator"></div>
+
+                    <div>
+                        <h3 class="mb-2"><strong>Sinais Clínicos</strong></h3>
+                        <div id="clinical-signs-container">
+                            <ul class="list-disc" id="clinical-signs-list">
+                            </ul>
+                            <p id="no-clinical-signs" class="hidden">Nenhum sinal clínico significativo identificado.</p>
+                        </div>
+                    </div>
+
+                    <div class="separator"></div>
+
+                    <div>
+                        <h3 class="mb-2"><strong>Desgaste Dentário</strong></h3>
+                        <div id="tooth-wear-container">
+                            <p id="tooth-wear-severity"></p>
+                            <p id="tooth-wear-type"></p>
+                        </div>
+                    </div>
+
+                    <button onclick="printResults()" class="button button-outline print-button no-print">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <rect x="6" y="14" width="12" height="8"></rect>
+                        </svg>
+                        Imprimir Resultados
+                    </button>
+
+                    <div class="bg-muted">
+                        <h3 class="mb-2"><strong>Observações Importantes:</strong></h3>
+                        <p class="text-sm mb-2">
+                            Este diagnóstico é baseado no questionário BruxScreen e deve ser interpretado pelo profissional dentista.
+                        </p>
+                        <p class="text-sm">
+                            A classificação segue os critérios de Lobbezoo et al. (2023) para bruxismo possível e provável.
+                        </p>
+                    </div>
+                    
+                    <div class="developer-info">
+                        <h4>Desenvolvido por:</h4>
+                        <p><strong>Profa. Dra. Juliana Stuginski Barbosa</strong></p>
+                        <p>Atendimentos em Ribeirão Preto e também online</p>
+                        <p>Contato: (16) 97404-3488</p>
+                    </div>
+                </div>
+                <div class="card-footer no-print">
+                    <button class="button button-outline" onclick="restartQuestionnaire()">Refazer Questionário</button>
+                    <button class="button button-primary" onclick="goToHome()">Voltar ao Início</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Definição das seções
+        const sections = [
+            { id: 'intro', title: 'Introdução', description: 'Informações sobre o questionário BruxScreen' },
+            { id: '1', title: 'BruxScreen-Q: Bruxismo do Sono', description: 'Avaliação do bruxismo durante o sono' },
+            { id: '2', title: 'BruxScreen-Q: Bruxismo em Vigília', description: 'Avaliação do bruxismo durante o período de vigília' },
+            { id: '3', title: 'BruxScreen-Q: Bruxismo em Vigília', description: 'Avaliação do bruxismo durante o período de vigília (continuação)' },
+            { id: '4', title: 'BruxScreen-Q: Sintomas ao Acordar', description: 'Avaliação de sintomas ao acordar' },
+            { id: '5', title: 'BruxScreen-Q: Sintomas Durante o Dia', description: 'Avaliação de sintomas durante o dia' },
+            { id: '6', title: 'BruxScreen-C: Exame Físico Extraoral', description: 'Avaliação de sinais extraorais' },
+            { id: '7', title: 'BruxScreen-C: Exame Físico Intraoral', description: 'Avaliação de sinais intraorais' },
+            { id: '8', title: 'BruxScreen-C: Exame Físico Dentário', description: 'Avaliação de desgaste dentário' }
+        ];
+
+        let currentSection = 0;
+        let answers = {};
+
+        // Função para iniciar o questionário
+        function startQuestionnaire() {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('questionnaire-page').classList.remove('hidden');
+            updateSection();
+        }
+
+        // Função para atualizar a seção atual
+        function updateSection() {
+            // Esconder todas as seções
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Mostrar a seção atual
+            document.getElementById(`section-${sections[currentSection].id}`).classList.remove('hidden');
+
+            // Atualizar título e descrição
+            document.getElementById('section-title').textContent = sections[currentSection].title;
+            document.getElementById('section-description').textContent = sections[currentSection].description;
+
+            // Atualizar progresso
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.getElementById('progress-text').textContent = `Progresso: ${currentSection + 1} de ${sections.length}`;
+            document.getElementById('progress-percentage').textContent = `${Math.round(progress)}%`;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            // Atualizar botões
+            document.getElementById('prev-button').disabled = currentSection === 0;
+            document.getElementById('next-button').textContent = currentSection === sections.length - 1 ? 'Concluir' : 'Próximo';
+        }
+
+        // Função para ir para a próxima seção
+        function nextSection() {
+            // Verificar se todas as perguntas da seção atual foram respondidas
+            if (!isCurrentSectionComplete()) {
+                alert('Por favor, responda todas as perguntas antes de continuar.');
+                return;
+            }
+
+            if (currentSection < sections.length - 1) {
+                currentSection++;
+                updateSection();
+                window.scrollTo(0, 0);
+            } else {
+                showResults();
+            }
+        }
+
+        // Função para voltar para a seção anterior
+        function previousSection() {
+            if (currentSection > 0) {
+                currentSection--;
+                updateSection();
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Função para verificar se a seção atual está completa
+        function isCurrentSectionComplete() {
+            // A seção de introdução não tem perguntas
+            if (sections[currentSection].id === 'intro') {
+                return true;
+            }
+
+            // Obter todas as perguntas da seção atual
+            const sectionId = sections[currentSection].id;
+            const section = document.getElementById(`section-${sectionId}`);
+            
+            // Para cada grupo de radio buttons, verificar se pelo menos um está selecionado
+            const radioGroups = {};
+            
+            section.querySelectorAll('input[type="radio"]').forEach(radio => {
+                const name = radio.getAttribute('name');
+                radioGroups[name] = true;
+                
+                if (radio.checked) {
+                    // Salvar a resposta
+                    answers[name] = radio.value;
+                }
+            });
+            
+            for (const name in radioGroups) {
+                const checkedRadio = section.querySelector(`input[name="${name}"]:checked`);
+                if (!checkedRadio) {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        // Função para mostrar os resultados
+        function showResults() {
+            // Processar as respostas
+            const diagnosis = processBruxismDiagnosis(answers);
+            
+            // Atualizar a página de resultados
+            updateResultPage(diagnosis);
+            
+            // Mostrar a página de resultados
+            document.getElementById('questionnaire-page').classList.add('hidden');
+            document.getElementById('result-page').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        // Função para processar as respostas e determinar o diagnóstico
+        function processBruxismDiagnosis(answers) {
+            // Inicializar resultado
+            const result = {
+                sleepBruxism: {
+                    classification: 'ausente',
+                    frequency: 'ausente'
+                },
+                awakeBruxism: {
+                    classification: 'ausente',
+                    frequency: 'ausente'
+                },
+                clinicalSigns: [],
+                toothWear: {
+                    severity: 'ausente',
+                    type: 'nenhum'
+                }
+            };
+
+            // Diagnóstico do Bruxismo do Sono (Perguntas 1-2)
+            diagnoseSleepBruxism(answers, result);
+            
+            // Diagnóstico do Bruxismo em Vigília (Perguntas 3-6)
+            diagnoseAwakeBruxism(answers, result);
+            
+            // Análise dos sinais clínicos (Parte C)
+            analyzeClinicalSigns(answers, result);
+            
+            // Análise do desgaste dentário (Parte C)
+            analyzeToothWear(answers, result);
+            
+            return result;
+        }
+
+        // Diagnóstico do Bruxismo do Sono
+        function diagnoseSleepBruxism(answers, result) {
+            // Verificar se há relato de bruxismo do sono
+            const sleepBruxismScore = Math.max(
+                parseInt(answers['q1'] || '0'),
+                parseInt(answers['q2'] || '0')
+            );
+            
+            if (sleepBruxismScore === 0) {
+                return; // Sem bruxismo do sono
+            }
+            
+            // Verificar sinais clínicos
+            const hasClinicalSigns = 
+                (answers['c1_masseter_relaxado'] === '1' || answers['c1_masseter_contraido'] === '1') ||
+                (answers['c2_labio'] === '1' || answers['c2_bochecha'] === '1' || 
+                 answers['c2_lingua_endentacao'] === '1' || answers['c2_lingua_lesoes'] === '1' || 
+                 answers['c2_osso'] === '1') ||
+                hasToothWear(answers);
+            
+            // Classificação baseada nos critérios
+            if (hasClinicalSigns) {
+                result.sleepBruxism.classification = 'provável';
+            } else {
+                result.sleepBruxism.classification = 'possível';
+            }
+            
+            // Determinar frequência baseada na pontuação
+            if (sleepBruxismScore === 1) {
+                result.sleepBruxism.frequency = 'ocasional';
+            } else if (sleepBruxismScore === 2) {
+                result.sleepBruxism.frequency = 'regular';
+            } else if (sleepBruxismScore === 3) {
+                result.sleepBruxism.frequency = 'frequente';
+            } else if (sleepBruxismScore === 4) {
+                result.sleepBruxism.frequency = 'constante';
+            }
+        }
+
+        // Diagnóstico do Bruxismo em Vigília
+        function diagnoseAwakeBruxism(answers, result) {
+            // Verificar se há relato de bruxismo em vigília
+            const awakeBruxismScore = Math.max(
+                parseInt(answers['q3'] || '0'),
+                parseInt(answers['q4'] || '0'),
+                parseInt(answers['q5'] || '0'),
+                parseInt(answers['q6'] || '0')
+            );
+            
+            if (awakeBruxismScore === 0) {
+                return; // Sem bruxismo em vigília
+            }
+            
+            // Verificar sinais clínicos
+            const hasClinicalSigns = 
+                (answers['c1_masseter_relaxado'] === '1' || answers['c1_masseter_contraido'] === '1') ||
+                (answers['c2_labio'] === '1' || answers['c2_bochecha'] === '1' || 
+                 answers['c2_lingua_endentacao'] === '1' || answers['c2_lingua_lesoes'] === '1' || 
+                 answers['c2_osso'] === '1') ||
+                hasToothWear(answers);
+            
+            // Classificação baseada nos critérios
+            if (hasClinicalSigns) {
+                result.awakeBruxism.classification = 'provável';
+            } else {
+                result.awakeBruxism.classification = 'possível';
+            }
+            
+            // Determinar frequência baseada na pontuação
+            if (awakeBruxismScore === 1) {
+                result.awakeBruxism.frequency = 'ocasional';
+            } else if (awakeBruxismScore === 2) {
+                result.awakeBruxism.frequency = 'regular';
+            } else if (awakeBruxismScore === 3) {
+                result.awakeBruxism.frequency = 'frequente';
+            } else if (awakeBruxismScore === 4) {
+                result.awakeBruxism.frequency = 'constante';
+            }
+        }
+
+        // Verificar se há desgaste dentário
+        function hasToothWear(answers) {
+            return parseInt(answers['c3_sextante1'] || '0') > 0 ||
+                   parseInt(answers['c3_sextante2_incisal'] || '0') > 0 ||
+                   parseInt(answers['c3_sextante2_palatal'] || '0') > 0 ||
+                   parseInt(answers['c3_sextante3'] || '0') > 0 ||
+                   parseInt(answers['c3_sextante4'] || '0') > 0 ||
+                   parseInt(answers['c3_sextante5'] || '0') > 0 ||
+                   parseInt(answers['c3_sextante6'] || '0') > 0;
+        }
+
+        // Análise dos sinais clínicos
+        function analyzeClinicalSigns(answers, result) {
+            // Sinais extraorais
+            if (answers['c1_masseter_relaxado'] === '1') {
+                result.clinicalSigns.push('Hipertrofia do músculo masseter (relaxado)');
+            }
+            
+            if (answers['c1_masseter_contraido'] === '1') {
+                result.clinicalSigns.push('Hipertrofia do músculo masseter (contraído)');
+            }
+            
+            // Sinais intraorais
+            if (answers['c2_labio'] === '1') {
+                result.clinicalSigns.push('Endentação no lábio');
+            }
+            
+            if (answers['c2_bochecha'] === '1') {
+                result.clinicalSigns.push('Linha alba marcada na bochecha');
+            }
+            
+            if (answers['c2_lingua_endentacao'] === '1') {
+                result.clinicalSigns.push('Endentação na língua');
+            }
+            
+            if (answers['c2_lingua_lesoes'] === '1') {
+                result.clinicalSigns.push('Lesões traumáticas na língua');
+            }
+            
+            if (answers['c2_osso'] === '1') {
+                result.clinicalSigns.push('Exostoses ou torus no osso alveolar');
+            }
+        }
+
+        // Análise do desgaste dentário
+        function analyzeToothWear(answers, result) {
+            // Calcular pontuação máxima de desgaste
+            const maxWearScore = Math.max(
+                parseInt(answers['c3_sextante1'] || '0'),
+                parseInt(answers['c3_sextante2_incisal'] || '0'),
+                parseInt(answers['c3_sextante2_palatal'] || '0'),
+                parseInt(answers['c3_sextante3'] || '0'),
+                parseInt(answers['c3_sextante4'] || '0'),
+                parseInt(answers['c3_sextante5'] || '0'),
+                parseInt(answers['c3_sextante6'] || '0')
+            );
+            
+            // Determinar severidade do desgaste
+            if (maxWearScore === 0) {
+                result.toothWear.severity = 'ausente';
+            } else if (maxWearScore === 1) {
+                result.toothWear.severity = 'leve';
+            } else if (maxWearScore === 2) {
+                result.toothWear.severity = 'moderado';
+            } else if (maxWearScore >= 3) {
+                result.toothWear.severity = 'severo';
+            }
+            
+            // Tipo de desgaste
+            if (answers['c3_tipo_desgaste'] === 'mecanico') {
+                result.toothWear.type = 'principalmente mecânico';
+            } else if (answers['c3_tipo_desgaste'] === 'quimico') {
+                result.toothWear.type = 'principalmente químico';
+            } else if (answers['c3_tipo_desgaste'] === 'ambos') {
+                result.toothWear.type = 'tanto mecânico como químico';
+            } else {
+                result.toothWear.type = 'nenhum';
+            }
+        }
+
+        // Função para atualizar a página de resultados
+        function updateResultPage(diagnosis) {
+            // Bruxismo do Sono
+            const sleepClassification = document.getElementById('sleep-classification');
+            sleepClassification.textContent = diagnosis.sleepBruxism.classification.toUpperCase();
+            sleepClassification.className = diagnosis.sleepBruxism.classification === 'ausente' ? 
+                'badge badge-outline' : 'badge badge-default';
+
+            const sleepFrequency = document.getElementById('sleep-frequency');
+            sleepFrequency.textContent = diagnosis.sleepBruxism.frequency.toUpperCase();
+            sleepFrequency.className = diagnosis.sleepBruxism.frequency === 'ausente' ? 
+                'badge badge-outline' : 'badge badge-default';
+
+            // Bruxismo em Vigília
+            const awakeClassification = document.getElementById('awake-classification');
+            awakeClassification.textContent = diagnosis.awakeBruxism.classification.toUpperCase();
+            awakeClassification.className = diagnosis.awakeBruxism.classification === 'ausente' ? 
+                'badge badge-outline' : 'badge badge-default';
+
+            const awakeFrequency = document.getElementById('awake-frequency');
+            awakeFrequency.textContent = diagnosis.awakeBruxism.frequency.toUpperCase();
+            awakeFrequency.className = diagnosis.awakeBruxism.frequency === 'ausente' ? 
+                'badge badge-outline' : 'badge badge-default';
+
+            // Sinais Clínicos
+            const clinicalSignsList = document.getElementById('clinical-signs-list');
+            const noClinicalSigns = document.getElementById('no-clinical-signs');
+            
+            clinicalSignsList.innerHTML = '';
+            
+            if (diagnosis.clinicalSigns.length > 0) {
+                clinicalSignsList.classList.remove('hidden');
+                noClinicalSigns.classList.add('hidden');
+                
+                diagnosis.clinicalSigns.forEach(sign => {
+                    const li = document.createElement('li');
+                    li.textContent = sign;
+                    clinicalSignsList.appendChild(li);
+                });
+            } else {
+                clinicalSignsList.classList.add('hidden');
+                noClinicalSigns.classList.remove('hidden');
+            }
+
+            // Desgaste Dentário
+            const toothWearSeverity = document.getElementById('tooth-wear-severity');
+            toothWearSeverity.textContent = `Severidade: ${diagnosis.toothWear.severity.toUpperCase()}`;
+            
+            const toothWearType = document.getElementById('tooth-wear-type');
+            toothWearType.textContent = `Tipo: ${diagnosis.toothWear.type.toUpperCase()}`;
+        }
+
+        // Função para imprimir os resultados
+        function printResults() {
+            window.print();
+        }
+
+        // Função para reiniciar o questionário
+        function restartQuestionnaire() {
+            // Limpar respostas
+            answers = {};
+            
+            // Resetar formulário
+            document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
+                input.checked = false;
+            });
+            
+            // Voltar para a primeira seção
+            currentSection = 0;
+            
+            // Mostrar a página do questionário
+            document.getElementById('result-page').classList.add('hidden');
+            document.getElementById('questionnaire-page').classList.remove('hidden');
+            
+            // Atualizar a seção
+            updateSection();
+        }
+
+        // Função para voltar à página inicial
+        function goToHome() {
+            // Limpar respostas
+            answers = {};
+            
+            // Resetar formulário
+            document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
+                input.checked = false;
+            });
+            
+            // Voltar para a primeira seção
+            currentSection = 0;
+            
+            // Mostrar a página inicial
+            document.getElementById('result-page').classList.add('hidden');
+            document.getElementById('questionnaire-page').classList.add('hidden');
+            document.getElementById('home-page').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
